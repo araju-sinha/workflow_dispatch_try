@@ -1,0 +1,39 @@
+name: Argo-CD-sync
+on:
+  push:   
+  workflow_dispatch:
+    inputs:
+      services:
+        description: Choose servive to sync
+        required: true
+        default: cert-manager
+        type: choice
+        options: 
+        - jci-notifications-registration
+        - jci-auth
+        - jci-istar-personnel
+        - jci-operator
+        - jci-search
+        - jci-messaging
+        - jci-eventing
+        - jci-git-server
+    
+jobs:
+  Argo-job-sync:
+    if: ${{ inputs.environment }} == 'build'
+    runs-on: ['build-bashtion']   
+    env:
+      ARGO_USER: admin  
+      ARGO_PASS: CHANGEME
+   
+    steps:
+      - name: setting the argocd connection 
+        run: |
+          echo "WORKER_NODE_IP=$(kubectl get nodes | grep -v controlplane | awk '{print $1}' | tail -1)" >> $GITHUB_ENV
+          echo "ARGOCD_PORT=$(kubectl -n argocd get svc argocd-server -o jsonpath='{.spec.ports[].nodePort}')" >> $GITHUB_ENV
+         
+      - name: argocd login
+        run: argocd login  ${{env.WORKER_NODE_IP}}:${{env.ARGOCD_PORT}} --username ${{env.ARGO_USER}} --password ${{env.ARGO_PASS}} --insecure
+     
+      - name: syncing app 
+        run: argocd app set ${{ inputs.services }} --sync-policy automated
