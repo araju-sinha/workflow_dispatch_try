@@ -20,8 +20,12 @@ on:
     
 jobs:
   Argo-job-sync:
-    if: ${{ inputs.environment }} == 'build'
-    runs-on: ['build-bashtion']   
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+#     if: ${{ inputs.environment }} == 'build'
+#     runs-on: ['build-bashtion']   
     env:
       ARGO_USER: admin  
       ARGO_PASS: CHANGEME
