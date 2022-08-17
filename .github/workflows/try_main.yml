@@ -3,6 +3,12 @@ on:
   push:   
   workflow_dispatch:
     inputs:
+      environment:
+        description: Environment to sync argocd application
+        required: true
+        default: build
+        type: choice
+        options: [build-bastion, dev, qa-airgapped-bastion]
       services:
         description: Choose servive to sync
         required: true
@@ -20,12 +26,7 @@ on:
     
 jobs:
   Argo-job-sync:
-    strategy:
-      matrix:
-        os: [ubuntu-22.04, ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
-#     if: ${{ inputs.environment }} == 'build'
-#     runs-on: ['build-bashtion']   
+    runs-on: ${{ inputs.environment }} 
     env:
       ARGO_USER: admin  
       ARGO_PASS: CHANGEME
