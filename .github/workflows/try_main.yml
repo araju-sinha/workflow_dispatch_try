@@ -6,7 +6,7 @@ on:
       environment:
         description: Environment to sync argocd application
         required: true
-        default: build
+        default: build-bastion
         type: choice
         options: [build-bastion, dev, qa-airgapped-bastion]
       services:
