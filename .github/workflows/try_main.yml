@@ -1,6 +1,6 @@
 name: Argo-CD-sync
 on:
-  push:   
+ # push:   
   workflow_dispatch:
     inputs:
       environment:
@@ -8,7 +8,10 @@ on:
         required: true
         default: build-bastion
         type: choice
-        options: [build-bastion, dev, qa-airgapped-bastion]
+        options: 
+        - build-bastion
+        - dev
+        - qa-airgapped-bastion
       services:
         description: Choose servive to sync
         required: true
