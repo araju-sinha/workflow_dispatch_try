@@ -4,8 +4,6 @@ name: Workflow1
 
 # Controls when the workflow will run
 on:
-  check_run:
-    types: [rerequested, completed]
   workflow_dispatch:
     inputs: 
       workflow2_name:
@@ -38,6 +36,17 @@ jobs:
     steps:
        - name: testing echo
          run: echo "workflow1 running"
+         
+       - name: trigger W2
+         run: echo "try to trigger workflow_trigger_try2"
+         
+       - uses: convictional/trigger-workflow-and-wait@master
+         with:
+           owner: ${{inputs.workflow2_github_account}}
+           repo: ${{inputs.workflow2_repo_github}}
+           github_token: ${{ secrets.Workflow2_PAT_TOKEN_GITHUB }}
+           workflow_file_name: ${{inputs.workflow2_name}}
+         
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
   #    - uses: actions/checkout@v3
