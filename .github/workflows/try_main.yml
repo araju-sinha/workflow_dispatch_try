@@ -1,6 +1,9 @@
 name: Argo-CD-sync
 on:
- # push:   
+  workflow_run:
+    workflows: [workflow1_main.yml]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       environment:
