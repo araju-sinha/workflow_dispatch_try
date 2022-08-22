@@ -38,14 +38,14 @@ jobs:
          run: echo "workflow1 running"
          
        - name: Invoke workflow in another repo with inputs
-         run: |
-           sudo apt update
-           curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-           sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
-           echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-           sudo apt update
-           sudo apt install gh
-           gh workflow run --repo araju-sinha/workflow_trigger_try2 "Workflow2"
+         run: gh workflow run --repo araju-sinha/workflow_trigger_try2 "Workflow2"
+#            sudo apt update
+#            curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+#            sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+#            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+#            sudo apt update
+#            sudo apt install gh
+           
          env:
           GITHUB_TOKEN: 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
 #        - name: trigger W2
